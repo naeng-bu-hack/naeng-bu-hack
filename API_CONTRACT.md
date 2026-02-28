@@ -28,7 +28,7 @@
 ```json
 {
   "candidates": [
-    {"name": "대파", "normalized": "대파", "confidence": 0.75}
+    {"name": "대파", "normalized": "green onion", "confidence": 0.75}
   ]
 }
 ```
@@ -39,14 +39,14 @@
 ```json
 {
   "manual": ["계란", "두부"],
-  "confirmed_from_image": ["대파"],
+  "confirmed_from_image": ["green onion"],
   "rejected_from_image": []
 }
 ```
 - Response:
 ```json
 {
-  "ingredients": ["계란", "두부", "대파"],
+  "ingredients": ["egg", "tofu", "green onion"],
   "display_names": ["계란", "두부", "대파"],
   "count": 3
 }
@@ -64,6 +64,7 @@
   "max_minutes": 30
 }
 ```
+App은 한글 재료명을 보내고, Backend가 내부에서 영문 canonical로 정규화해 추천 로직에 사용합니다.
 - Response:
 ```json
 {

@@ -2,10 +2,12 @@ from fastapi import HTTPException
 
 from src.db import fetch_recommendations, fetch_recipe_detail
 from src.models.schemas import RecommendResponse, RecipeDetailResponse, RecipeSummaryItem, ShareCardResponse
+from src.services.ingredient_service import normalize_ingredients
 
 
 def recommend_recipes(ingredients: list[str], cuisine: str, max_minutes: int) -> RecommendResponse:
-    rows = fetch_recommendations(ingredients=ingredients, cuisine=cuisine, max_minutes=max_minutes)
+    canonical_ingredients = normalize_ingredients(ingredients, use_llm_fallback=False)
+    rows = fetch_recommendations(ingredients=canonical_ingredients, cuisine=cuisine, max_minutes=max_minutes)
     recipes = [RecipeSummaryItem(**row) for row in rows]
     return RecommendResponse(recipes=recipes)
 
