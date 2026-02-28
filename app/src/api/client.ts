@@ -1,5 +1,5 @@
-import { MOCK_RECIPE_DETAILS, MOCK_RECIPES } from '../mock/fixtures';
-import type { RecipeDetail, RecipeSummary } from '../types';
+import { MOCK_RECIPE_DETAILS, MOCK_RECIPES } from '@/mock/fixtures';
+import type { RecipeDetail, RecipeSummary } from '@/types';
 
 const USE_MOCK = true;
 

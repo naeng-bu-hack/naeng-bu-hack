@@ -1,6 +1,4 @@
-import type { RecipeDetail, RecipeSummary } from '../types';
-
-export const DEFAULT_INGREDIENTS = ['김치', '계란', '밥'];
+import type { RecipeDetail, RecipeSummary } from '@/types';
 
 export const MOCK_RECIPES: RecipeSummary[] = [
   {
