@@ -38,3 +38,7 @@ docker compose down
 - [app/README.md](app/README.md)
 - [backend/README.md](backend/README.md)
 - [API_CONTRACT.md](API_CONTRACT.md)
+
+## API 규격 관리
+- App/Backend API 규격의 단일 기준(Single Source of Truth)은 루트의 `API_CONTRACT.md`입니다.
+- `app/README.md`, `backend/README.md`의 API 관련 내용은 보조 설명이며, 불일치 시 `API_CONTRACT.md`를 기준으로 합니다.

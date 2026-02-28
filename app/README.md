@@ -2,6 +2,10 @@
 
 Expo + React Native 프론트엔드입니다.
 
+## API 규격
+- API 규격은 루트의 `../API_CONTRACT.md`에서 단일 기준으로 관리합니다.
+- 앱 구현 시 엔드포인트/요청/응답 스키마는 `API_CONTRACT.md`를 우선 참조합니다.
+
 ## 디렉토리
 - `src/`: 앱 소스 코드
 - `App.tsx`: Expo 엔트리 파일(현재 실제 라우팅 엔트리는 `expo-router/entry`)
