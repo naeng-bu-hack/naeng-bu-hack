@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "name": "naeng-bu-hack-app",
+    "slug": "naeng-bu-hack-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "platforms": ["ios", "android", "web"],
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}

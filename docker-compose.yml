@@ -1,0 +1,10 @@
+services:
+  app:
+    extends:
+      file: ./app/docker-compose.yml
+      service: app
+
+  backend:
+    extends:
+      file: ./backend/docker-compose.yml
+      service: backend

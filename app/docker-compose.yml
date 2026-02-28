@@ -1,0 +1,14 @@
+services:
+  app:
+    build:
+      context: .
+    container_name: naeng-bu-hack-app
+    ports:
+      - "19006:19006"
+      - "8081:8081"
+    environment:
+      - CI=1
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    command: npx expo start --web --host localhost --port 19006
