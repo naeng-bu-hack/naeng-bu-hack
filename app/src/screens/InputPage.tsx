@@ -49,8 +49,8 @@ export function InputPage({
       </View>
 
       <View style={styles.altInputRow}>
-        <Button label="카메라로 추가" variant="outline" flex onPress={onOpenCamera} />
-        <Button label="음성으로 추가" variant="outline" flex onPress={onOpenVoice} />
+        <Button label="카메라로 추가" variant="camera" flex onPress={onOpenCamera} />
+        <Button label="음성으로 추가" variant="voice" flex onPress={onOpenVoice} />
       </View>
 
       <Button label="레시피 찾기" onPress={onSearch} disabled={ingredients.length === 0} />

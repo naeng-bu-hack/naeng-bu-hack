@@ -19,5 +19,6 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.sm,
     fontSize: 14,
     color: colors.textPrimary,
+    backgroundColor: colors.surfaceMuted,
   },
 });

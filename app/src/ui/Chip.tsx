@@ -18,7 +18,8 @@ export function Chip({ label, onPress }: ChipProps) {
 const styles = StyleSheet.create({
   chip: {
     borderWidth: 1,
-    borderColor: colors.borderStrong,
+    borderColor: colors.border,
+    backgroundColor: colors.surfaceMuted,
     borderRadius: radius.pill,
     paddingHorizontal: spacing.md,
     paddingVertical: 5,

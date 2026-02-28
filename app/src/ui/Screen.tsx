@@ -12,7 +12,7 @@ export function Screen({ children, error }: ScreenProps) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.header}>naeng-bu-hack</Text>
+        <Text style={styles.header}>냉장고를 부탁해</Text>
         {error ? <Text style={styles.error}>{error}</Text> : null}
         {children}
       </ScrollView>

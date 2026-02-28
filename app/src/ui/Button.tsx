@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { colors, radius, spacing } from '@/theme/tokens';
 
-type ButtonVariant = 'primary' | 'outline' | 'success';
+type ButtonVariant = 'primary' | 'outline' | 'success' | 'camera' | 'voice';
 
 type ButtonProps = {
   label: string;
@@ -29,6 +29,8 @@ export function Button({
         variant === 'primary' && styles.primary,
         variant === 'outline' && styles.outline,
         variant === 'success' && styles.success,
+        variant === 'camera' && styles.camera,
+        variant === 'voice' && styles.voice,
         flex && styles.flex,
         disabled && styles.disabled,
       ]}
@@ -68,6 +70,14 @@ const styles = StyleSheet.create({
   success: {
     backgroundColor: colors.success,
     borderColor: colors.success,
+  },
+  camera: {
+    backgroundColor: colors.info,
+    borderColor: colors.info,
+  },
+  voice: {
+    backgroundColor: colors.voice,
+    borderColor: colors.voice,
   },
   disabled: {
     opacity: 0.45,
