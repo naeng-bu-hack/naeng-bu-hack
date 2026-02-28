@@ -1,34 +1,82 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
-import { FLOW_STEPS } from '../mock/fixtures';
+import type { AppStage } from '../types';
+
+type FlowState = {
+  stage: AppStage;
+  ingredients: string[];
+  selectedRecipeId: string | null;
+};
+
+const initialState: FlowState = {
+  stage: 'input',
+  ingredients: [],
+  selectedRecipeId: null,
+};
 
 export function useFlowState() {
-  const [stepIndex, setStepIndex] = useState(0);
+  const [state, setState] = useState<FlowState>(initialState);
 
-  const canGoBack = stepIndex > 0;
-  const canGoNext = stepIndex < FLOW_STEPS.length - 1;
+  function addIngredient(raw: string) {
+    const value = raw.trim();
+    if (!value) return;
 
-  const currentStep = useMemo(() => FLOW_STEPS[stepIndex], [stepIndex]);
+    setState((prev) => {
+      if (prev.ingredients.includes(value)) {
+        return prev;
+      }
 
-  function next() {
-    if (canGoNext) {
-      setStepIndex((prev) => prev + 1);
-    }
+      return {
+        ...prev,
+        ingredients: [...prev.ingredients, value],
+      };
+    });
   }
 
-  function prev() {
-    if (canGoBack) {
-      setStepIndex((prev) => prev - 1);
-    }
+  function removeIngredient(value: string) {
+    setState((prev) => ({
+      ...prev,
+      ingredients: prev.ingredients.filter((item) => item !== value),
+    }));
+  }
+
+  function startLoading() {
+    setState((prev) => ({ ...prev, stage: 'loading' }));
+  }
+
+  function openRecipes() {
+    setState((prev) => ({ ...prev, stage: 'recipes' }));
+  }
+
+  function selectRecipe(recipeId: string) {
+    setState((prev) => ({
+      ...prev,
+      stage: 'detail',
+      selectedRecipeId: recipeId,
+    }));
+  }
+
+  function completeRecipe() {
+    setState((prev) => ({ ...prev, stage: 'complete' }));
+  }
+
+  function backToRecipes() {
+    setState((prev) => ({ ...prev, stage: 'recipes' }));
+  }
+
+  function resetFlow() {
+    setState(initialState);
   }
 
   return {
-    currentStep,
-    stepIndex,
-    totalSteps: FLOW_STEPS.length,
-    canGoBack,
-    canGoNext,
-    next,
-    prev,
+    ...state,
+    addIngredient,
+    removeIngredient,
+    startLoading,
+    openRecipes,
+    selectRecipe,
+    completeRecipe,
+    backToRecipes,
+    resetFlow,
   };
 }
