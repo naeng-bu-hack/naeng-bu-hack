@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from src.config import get_settings
-from src.routers import health_router, recipes_router
+from src.routers import health_router, ingredients_router, recipes_router
 
 settings = get_settings()
 
@@ -13,3 +13,4 @@ app = FastAPI(
 
 app.include_router(health_router)
 app.include_router(recipes_router)
+app.include_router(ingredients_router)

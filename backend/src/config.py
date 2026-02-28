@@ -22,6 +22,8 @@ class Settings:
     app_env: str
     app_host: str
     app_port: int
+    gemini_api_key: str
+    gemini_model: str
 
 
 @lru_cache
@@ -33,4 +35,6 @@ def get_settings() -> Settings:
         app_env=os.getenv("APP_ENV", "local"),
         app_host=os.getenv("APP_HOST", "0.0.0.0"),
         app_port=_to_int(os.getenv("APP_PORT", "8000"), 8000),
+        gemini_api_key=os.getenv("GEMINI_API_KEY", ""),
+        gemini_model=os.getenv("GEMINI_MODEL", "gemini-2.5-flash"),
     )
