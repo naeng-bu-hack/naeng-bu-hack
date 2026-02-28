@@ -1,6 +1,9 @@
-import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
+import { colors, spacing, typography } from '@/theme/tokens';
 import type { RecipeDetail } from '@/types';
+import { Button } from '@/ui/Button';
+import { Card } from '@/ui/Card';
 
 type RecipeDetailPageProps = {
   recipeDetail: RecipeDetail | null;
@@ -10,10 +13,10 @@ type RecipeDetailPageProps = {
 
 export function RecipeDetailPage({ recipeDetail, onBack, onComplete }: RecipeDetailPageProps) {
   return (
-    <View style={styles.card}>
+    <Card>
       <Text style={styles.title}>레시피 상세</Text>
       {!recipeDetail ? (
-        <ActivityIndicator size="small" color="#111827" />
+        <ActivityIndicator size="small" color={colors.primary} />
       ) : (
         <>
           <Text style={styles.recipeTitle}>{recipeDetail.title}</Text>
@@ -33,51 +36,38 @@ export function RecipeDetailPage({ recipeDetail, onBack, onComplete }: RecipeDet
           ))}
 
           <View style={styles.buttonRow}>
-            <Pressable style={styles.outlineButton} onPress={onBack}>
-              <Text style={styles.outlineButtonText}>목록으로</Text>
-            </Pressable>
-            <Pressable style={styles.primaryButton} onPress={onComplete}>
-              <Text style={styles.primaryButtonText}>요리 완료</Text>
-            </Pressable>
+            <Button label="목록으로" variant="outline" flex onPress={onBack} />
+            <Button label="요리 완료" flex onPress={onComplete} />
           </View>
         </>
       )}
-    </View>
+    </Card>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    padding: 16,
-    gap: 12,
-  },
   title: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#111827',
+    ...typography.title,
+    color: colors.textPrimary,
   },
   recipeTitle: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#111827',
+    color: colors.textPrimary,
   },
   recipeMeta: {
     fontSize: 13,
-    color: '#6b7280',
+    color: colors.textMuted,
   },
   sectionTitle: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#111827',
+    color: colors.textPrimary,
     marginTop: 6,
   },
   listText: {
     fontSize: 14,
-    color: '#374151',
+    color: colors.textSecondary,
     lineHeight: 20,
   },
   stepRow: {
@@ -86,33 +76,10 @@ const styles = StyleSheet.create({
   tipText: {
     marginTop: 2,
     fontSize: 13,
-    color: '#6b7280',
+    color: colors.textMuted,
   },
   buttonRow: {
     flexDirection: 'row',
-    gap: 8,
-  },
-  outlineButton: {
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 10,
-    paddingVertical: 12,
-    alignItems: 'center',
-    flex: 1,
-  },
-  outlineButtonText: {
-    color: '#374151',
-    fontWeight: '600',
-  },
-  primaryButton: {
-    backgroundColor: '#111827',
-    borderRadius: 10,
-    paddingVertical: 12,
-    alignItems: 'center',
-    flex: 1,
-  },
-  primaryButtonText: {
-    color: '#ffffff',
-    fontWeight: '700',
+    gap: spacing.sm,
   },
 });

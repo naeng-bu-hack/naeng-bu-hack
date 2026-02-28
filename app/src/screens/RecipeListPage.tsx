@@ -1,6 +1,9 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text } from 'react-native';
 
+import { colors, radius, spacing, typography } from '@/theme/tokens';
 import type { RecipeSummary } from '@/types';
+import { Button } from '@/ui/Button';
+import { Card } from '@/ui/Card';
 
 type RecipeListPageProps = {
   recipes: RecipeSummary[];
@@ -10,7 +13,7 @@ type RecipeListPageProps = {
 
 export function RecipeListPage({ recipes, onSelectRecipe, onRefresh }: RecipeListPageProps) {
   return (
-    <View style={styles.card}>
+    <Card>
       <Text style={styles.title}>추천 레시피</Text>
       <Text style={styles.description}>원하는 레시피를 선택하세요.</Text>
 
@@ -22,60 +25,38 @@ export function RecipeListPage({ recipes, onSelectRecipe, onRefresh }: RecipeLis
         </Pressable>
       ))}
 
-      <Pressable style={styles.outlineButton} onPress={onRefresh}>
-        <Text style={styles.outlineButtonText}>다시 추천 받기</Text>
-      </Pressable>
-    </View>
+      <Button label="다시 추천 받기" variant="outline" onPress={onRefresh} />
+    </Card>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    padding: 16,
-    gap: 12,
-  },
   title: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#111827',
+    ...typography.title,
+    color: colors.textPrimary,
   },
   description: {
-    fontSize: 14,
-    color: '#4b5563',
+    ...typography.subtitle,
+    color: colors.textSecondary,
   },
   recipeItem: {
     borderWidth: 1,
-    borderColor: '#e5e7eb',
-    borderRadius: 10,
-    padding: 12,
-    gap: 4,
+    borderColor: colors.border,
+    borderRadius: radius.md,
+    padding: spacing.md,
+    gap: spacing.xs,
   },
   recipeTitle: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#111827',
+    color: colors.textPrimary,
   },
   recipeDesc: {
     fontSize: 14,
-    color: '#4b5563',
+    color: colors.textSecondary,
   },
   recipeMeta: {
     fontSize: 13,
-    color: '#6b7280',
-  },
-  outlineButton: {
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 10,
-    paddingVertical: 12,
-    alignItems: 'center',
-  },
-  outlineButtonText: {
-    color: '#374151',
-    fontWeight: '600',
+    color: colors.textMuted,
   },
 });

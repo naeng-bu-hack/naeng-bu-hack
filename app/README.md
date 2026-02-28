@@ -18,6 +18,8 @@ Expo + React Native 프론트엔드입니다.
   - `recipe/[id].tsx`: 레시피 상세
   - `complete/[id].tsx`: 완료/공유
 - `screens/`: 페이지 UI 컴포넌트
+- `ui/`: 재사용 프리미티브 (`Screen`, `Card`, `Button`, `Input`, `Chip`)
+- `theme/tokens.ts`: 색상/간격/타이포 토큰
 - `store/flow-context.tsx`: 라우트 간 공유 상태
 - `api/`: 서버 호출 함수 (현재 mock 비동기)
 - `types/`: 타입 정의

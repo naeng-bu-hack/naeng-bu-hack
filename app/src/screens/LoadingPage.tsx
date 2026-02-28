@@ -1,31 +1,25 @@
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text } from 'react-native';
+
+import { colors, typography } from '@/theme/tokens';
+import { Card } from '@/ui/Card';
 
 export function LoadingPage() {
   return (
-    <View style={styles.card}>
-      <ActivityIndicator size="large" color="#111827" />
+    <Card>
+      <ActivityIndicator size="large" color={colors.primary} />
       <Text style={styles.title}>추천 생성 중</Text>
       <Text style={styles.description}>입력 재료를 기준으로 레시피를 찾고 있어요.</Text>
-    </View>
+    </Card>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    padding: 16,
-    gap: 12,
-  },
   title: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#111827',
+    ...typography.title,
+    color: colors.textPrimary,
   },
   description: {
-    fontSize: 14,
-    color: '#4b5563',
+    ...typography.subtitle,
+    color: colors.textSecondary,
   },
 });

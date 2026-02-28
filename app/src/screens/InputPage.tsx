@@ -1,4 +1,10 @@
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+
+import { colors, spacing, typography } from '@/theme/tokens';
+import { Button } from '@/ui/Button';
+import { Card } from '@/ui/Card';
+import { Chip } from '@/ui/Chip';
+import { Input } from '@/ui/Input';
 
 type InputPageProps = {
   input: string;
@@ -22,135 +28,56 @@ export function InputPage({
   onSearch,
 }: InputPageProps) {
   return (
-    <View style={styles.card}>
+    <Card>
       <Text style={styles.title}>재료 입력</Text>
       <Text style={styles.description}>냉장고 재료를 추가한 뒤 추천을 시작하세요.</Text>
 
       <View style={styles.inputRow}>
-        <TextInput
+        <Input
           placeholder="예: 계란"
-          style={styles.input}
           value={input}
           onChangeText={onInputChange}
           onSubmitEditing={onAddIngredient}
         />
-        <Pressable style={styles.smallButton} onPress={onAddIngredient}>
-          <Text style={styles.smallButtonText}>추가</Text>
-        </Pressable>
+        <Button label="추가" onPress={onAddIngredient} />
       </View>
 
       <View style={styles.tagWrap}>
         {ingredients.map((item) => (
-          <Pressable key={item} style={styles.tag} onPress={() => onRemoveIngredient(item)}>
-            <Text style={styles.tagText}>{item}</Text>
-          </Pressable>
+          <Chip key={item} label={item} onPress={() => onRemoveIngredient(item)} />
         ))}
       </View>
 
       <View style={styles.altInputRow}>
-        <Pressable style={styles.outlineButton} onPress={onOpenCamera}>
-          <Text style={styles.outlineButtonText}>카메라로 추가</Text>
-        </Pressable>
-        <Pressable style={styles.outlineButton} onPress={onOpenVoice}>
-          <Text style={styles.outlineButtonText}>음성으로 추가</Text>
-        </Pressable>
+        <Button label="카메라로 추가" variant="outline" flex onPress={onOpenCamera} />
+        <Button label="음성으로 추가" variant="outline" flex onPress={onOpenVoice} />
       </View>
 
-      <Pressable
-        style={[styles.primaryButton, ingredients.length === 0 && styles.buttonDisabled]}
-        disabled={ingredients.length === 0}
-        onPress={onSearch}
-      >
-        <Text style={styles.primaryButtonText}>레시피 찾기</Text>
-      </Pressable>
-    </View>
+      <Button label="레시피 찾기" onPress={onSearch} disabled={ingredients.length === 0} />
+    </Card>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    padding: 16,
-    gap: 12,
-  },
   title: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#111827',
+    ...typography.title,
+    color: colors.textPrimary,
   },
   description: {
-    fontSize: 14,
-    color: '#4b5563',
+    ...typography.subtitle,
+    color: colors.textSecondary,
   },
   inputRow: {
     flexDirection: 'row',
-    gap: 8,
-  },
-  input: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    fontSize: 14,
-  },
-  smallButton: {
-    backgroundColor: '#111827',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    justifyContent: 'center',
-  },
-  smallButtonText: {
-    color: '#ffffff',
-    fontWeight: '600',
+    gap: spacing.sm,
   },
   tagWrap: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
-  },
-  tag: {
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 999,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-  },
-  tagText: {
-    color: '#374151',
-    fontSize: 13,
-  },
-  primaryButton: {
-    backgroundColor: '#111827',
-    borderRadius: 10,
-    paddingVertical: 12,
-    alignItems: 'center',
-  },
-  primaryButtonText: {
-    color: '#ffffff',
-    fontWeight: '700',
-  },
-  outlineButton: {
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 10,
-    paddingVertical: 12,
-    alignItems: 'center',
-    flex: 1,
-  },
-  outlineButtonText: {
-    color: '#374151',
-    fontWeight: '600',
+    gap: spacing.sm,
   },
   altInputRow: {
     flexDirection: 'row',
-    gap: 8,
-  },
-  buttonDisabled: {
-    opacity: 0.4,
+    gap: spacing.sm,
   },
 });

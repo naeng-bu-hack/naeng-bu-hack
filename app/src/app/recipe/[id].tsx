@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native';
 
 import { fetchRecipeDetail } from '@/api/client';
 import { RecipeDetailPage } from '@/screens/RecipeDetailPage';
 import { useFlowContext } from '@/store/flow-context';
 import type { RecipeDetail } from '@/types';
+import { Screen } from '@/ui/Screen';
 
 export default function RecipeDetailRoute() {
   const router = useRouter();
@@ -51,35 +51,8 @@ export default function RecipeDetailRoute() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.header}>naeng-bu-hack</Text>
-        {error ? <Text style={styles.error}>{error}</Text> : null}
-        <RecipeDetailPage recipeDetail={recipeDetail} onBack={handleBack} onComplete={handleComplete} />
-      </ScrollView>
-    </SafeAreaView>
+    <Screen error={error}>
+      <RecipeDetailPage recipeDetail={recipeDetail} onBack={handleBack} onComplete={handleComplete} />
+    </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f3f4f6',
-  },
-  content: {
-    padding: 20,
-    gap: 16,
-  },
-  header: {
-    fontSize: 24,
-    fontWeight: '800',
-    color: '#111827',
-    textAlign: 'center',
-    marginBottom: 4,
-  },
-  error: {
-    fontSize: 14,
-    color: '#dc2626',
-    textAlign: 'center',
-  },
-});
