@@ -15,26 +15,14 @@ class ImageInput:
     data: bytes
 
 
-def extract_ingredients_from_text(text: str) -> list[str]:
-    prompt = (
-        "Extract only ingredient names from the input text. "
-        "Return strict JSON only in this format: "
-        '{"ingredients":["ingredient1","ingredient2"]}. '
-        "No explanation, no markdown."
-    )
-    raw = _call_gemini(
-        [{"text": prompt}, {"text": f"Input text:\n{text}"}],
-    )
-    return _parse_ingredients(raw)
-
-
 def extract_ingredients_from_images(images: list[ImageInput]) -> list[str]:
     parts: list[dict] = [
         {
             "text": (
                 "You will receive multiple refrigerator or ingredient images. "
                 "Extract only ingredient names considering all images together. "
-                'Return strict JSON only: {"ingredients":["ingredient1","ingredient2"]}. '
+                "Return ingredient names in Korean only. "
+                'Return strict JSON only: {"ingredients":["식재료1","식재료2"]}. '
                 "No explanation, no markdown."
             )
         }
@@ -53,11 +41,8 @@ def extract_ingredients_from_images(images: list[ImageInput]) -> list[str]:
     return _parse_ingredients(raw)
 
 
-def merge_ingredient_lists(current_ingredients: list[str], ingredient_lists: list[list[str]]) -> list[str]:
-    merged = list(current_ingredients)
-    for values in ingredient_lists:
-        merged.extend(values)
-    return _normalize_and_dedup(merged)
+def normalize_ingredients(values: list[str]) -> list[str]:
+    return _normalize_and_dedup(values)
 
 
 def _call_gemini(parts: list[dict]) -> str:
@@ -145,9 +130,10 @@ def _normalize_and_dedup(values: list[str]) -> list[str]:
     deduped: list[str] = []
     seen: set[str] = set()
     for value in values:
-        normalized = value.strip().lower()
-        if not normalized or normalized in seen:
+        display = value.strip()
+        dedup_key = display.lower()
+        if not display or dedup_key in seen:
             continue
-        seen.add(normalized)
-        deduped.append(normalized)
+        seen.add(dedup_key)
+        deduped.append(display)
     return deduped

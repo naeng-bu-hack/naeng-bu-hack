@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class HealthResponse(BaseModel):
@@ -8,45 +8,44 @@ class HealthResponse(BaseModel):
     port: int
 
 
-class IngredientParseRequest(BaseModel):
-    utterance: str = Field(..., min_length=1)
-
-
-class IngredientItem(BaseModel):
-    name_raw: str
-    normalized_id: str
-    quantity: str
-    confidence: float
-
-
-class IngredientParseResponse(BaseModel):
-    utterance: str
-    ingredients: list[IngredientItem]
-    unknown_chunks: list[str] = []
-
-
 class RecommendRequest(BaseModel):
     ingredients: list[str]
     cuisine: str = 'any'
     max_minutes: int = 30
 
 
-class RecipeCandidate(BaseModel):
-    recipe_id: str
+class RecipeSummaryItem(BaseModel):
+    id: str
+    kind: str
     title: str
-    reason: str
+    description: str
+    difficulty: str
+    time: str
+    badge: str
 
 
 class RecommendResponse(BaseModel):
-    candidates: list[RecipeCandidate]
+    recipes: list[RecipeSummaryItem]
 
 
-class ScriptRequest(BaseModel):
-    recipe_title: str
+class RecipeIngredient(BaseModel):
+    item: str
+    amount: str
 
 
-class ScriptResponse(BaseModel):
-    script: str
+class RecipeStep(BaseModel):
+    step: int
+    description: str
+    tip: str | None = None
+
+
+class RecipeDetailResponse(BaseModel):
+    id: str
+    title: str
+    servings: int
+    time: str
+    ingredients: list[RecipeIngredient]
+    steps: list[RecipeStep]
 
 
 class ShareCardRequest(BaseModel):

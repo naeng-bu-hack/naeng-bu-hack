@@ -29,8 +29,7 @@ Expo + React Native 프론트엔드입니다.
 ## 현재 기본 화면
 - 5단계 유저 플로우
   - `input -> loading -> recipes -> detail -> complete`
-- API 호출은 mock 기반으로 동작
-- 입력 화면의 카메라/음성 버튼은 현재 mock 재료 추가 동작
+- 카메라 플로우: `카메라 분석 -> 인식 결과 확인 모달 -> 선택 반영`
 
 ## 1) app 단독 실행 (Docker Compose)
 
@@ -55,6 +54,16 @@ docker compose down
 - Expo Web: http://localhost:19006
 
 ## 2) 로컬 실행 (Docker 없이)
+
+환경변수 설정:
+
+```bash
+cp env.example .env
+```
+
+주요 변수:
+- `EXPO_PUBLIC_USE_MOCK`: `true`/`false` (기본 `true`)
+- `EXPO_PUBLIC_API_BASE_URL`: 기본 `http://localhost:8000`
 
 ```bash
 cd app

@@ -12,7 +12,9 @@ FastAPI 기반 백엔드 서버입니다.
 - `main.py`: FastAPI 앱 엔트리
 - `routers/`: API 라우터
 - `models/`: 요청/응답 스키마
-- `services.py`: 비즈니스 로직
+- `services/`: 도메인별 비즈니스 로직
+  - `recipe_service.py`: 레시피 추천/스크립트/공유카드 로직
+  - `ingredient_service.py`: 재료 추출/병합 로직
 - `db.py`: DB 조회 함수(현재 Mock)
 - `llm.py`: LLM 래퍼(현재 Mock)
 - `utils.py`: 공통 유틸
@@ -53,10 +55,13 @@ docker compose down
 
 ### 기본 API (스캐폴딩)
 - `GET /health`
-- `POST /api/v1/ingredients/parse`
+- `POST /api/v1/ingredients/detect-from-images`
+- `POST /api/v1/ingredients/normalize`
 - `POST /api/v1/recommendations`
-- `POST /api/v1/script`
+- `GET /api/v1/recipes/{id}`
 - `POST /api/v1/share-card`
+
+자세한 계약은 루트의 `../API_CONTRACT.md`를 단일 기준으로 사용합니다.
 
 ## 4) 환경변수 로딩 방식
 
