@@ -1,6 +1,6 @@
 from fastapi import APIRouter, File, HTTPException, UploadFile
 
-from src.ingredient_service import (
+from src.services.ingredient_service import (
     ImageInput,
     extract_ingredients_from_images,
     extract_ingredients_from_text,

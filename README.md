@@ -9,7 +9,7 @@
   - 단독 실행 compose: `app/docker-compose.yml`
 - `backend/`: FastAPI 백엔드
   - 코드 위치: `backend/src`
-  - 아키텍처: `routers/models/services/db/llm` 단순화 구조
+  - 아키텍처: `routers/models/services/db/llm` 모듈 분리 구조
   - 단독 실행 compose: `backend/docker-compose.yml`
 
 ## 실행 방법

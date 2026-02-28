@@ -10,7 +10,7 @@ from src.models.schemas import (
     ShareCardRequest,
     ShareCardResponse,
 )
-from src.services import build_script, build_share_card, parse_ingredients, recommend_recipes
+from src.services.recipe_service import build_script, build_share_card, parse_ingredients, recommend_recipes
 
 router = APIRouter(prefix='/api/v1', tags=['recipes'])
 
