@@ -3,6 +3,10 @@
 FastAPI 기반 백엔드 서버입니다.
 루트 프로젝트 안내는 `../README.md`를 참고하세요.
 
+## API 규격
+- API 규격은 루트의 `../API_CONTRACT.md`에서 단일 기준으로 관리합니다.
+- 이 문서의 API 목록은 빠른 확인용 요약이며, 최종 기준은 `API_CONTRACT.md`입니다.
+
 ## 디렉토리
 - `src/`: 백엔드 소스 코드
 - `docker-compose.yml`: backend 단독 실행
@@ -52,16 +56,6 @@ docker compose down
 - Health Check: http://localhost:8000/health
 - Swagger UI: http://localhost:8000/docs
 - OpenAPI JSON: http://localhost:8000/openapi.json
-
-### 기본 API (스캐폴딩)
-- `GET /health`
-- `POST /api/v1/ingredients/detect-from-images`
-- `POST /api/v1/ingredients/normalize`
-- `POST /api/v1/recommendations`
-- `GET /api/v1/recipes/{id}`
-- `POST /api/v1/share-card`
-
-자세한 계약은 루트의 `../API_CONTRACT.md`를 단일 기준으로 사용합니다.
 
 ## 4) 환경변수 로딩 방식
 
