@@ -9,7 +9,7 @@ import { Screen } from '@/ui/Screen';
 export default function CompleteRoute() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { recipes, resetFlow } = useFlowContext();
+  const { recipes, ingredients, resetFlow } = useFlowContext();
 
   const [shared, setShared] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -24,7 +24,7 @@ export default function CompleteRoute() {
     if (!id) return;
 
     try {
-      await shareRecipe(id);
+      await shareRecipe(recipeTitle, ingredients);
       setShared(true);
       setError(null);
     } catch (err) {

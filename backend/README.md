@@ -55,10 +55,13 @@ docker compose down
 
 ### 기본 API (스캐폴딩)
 - `GET /health`
-- `POST /api/v1/ingredients/parse`
+- `POST /api/v1/ingredients/detect-from-images`
+- `POST /api/v1/ingredients/normalize`
 - `POST /api/v1/recommendations`
-- `POST /api/v1/script`
+- `GET /api/v1/recipes/{id}`
 - `POST /api/v1/share-card`
+
+자세한 계약은 루트의 `../API_CONTRACT.md`를 단일 기준으로 사용합니다.
 
 ## 4) 환경변수 로딩 방식
 

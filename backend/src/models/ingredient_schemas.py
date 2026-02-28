@@ -1,15 +1,23 @@
 from pydantic import BaseModel, Field
 
 
-class IngredientsFromTextRequest(BaseModel):
-    text: str = Field(..., min_length=1)
+class IngredientCandidate(BaseModel):
+    name: str
+    normalized: str
+    confidence: float
 
 
-class MergeIngredientsRequest(BaseModel):
-    current_ingredients: list[str] = Field(default_factory=list)
-    ingredient_lists: list[list[str]] = Field(default_factory=list)
+class IngredientCandidatesResponse(BaseModel):
+    candidates: list[IngredientCandidate]
 
 
-class IngredientsResponse(BaseModel):
+class NormalizeIngredientsRequest(BaseModel):
+    manual: list[str] = Field(default_factory=list)
+    confirmed_from_image: list[str] = Field(default_factory=list)
+    rejected_from_image: list[str] = Field(default_factory=list)
+
+
+class NormalizeIngredientsResponse(BaseModel):
     ingredients: list[str]
+    display_names: list[str]
     count: int

@@ -31,3 +31,9 @@ export type RecipeDetail = {
   ingredients: RecipeIngredient[];
   steps: RecipeStep[];
 };
+
+export type IngredientCandidate = {
+  name: string;
+  normalized: string;
+  confidence: number;
+};
