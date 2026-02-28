@@ -69,6 +69,10 @@ cp env.example .env
 - `EXPO_PUBLIC_USE_MOCK`: `true`/`false` (기본 `true`)
 - `EXPO_PUBLIC_API_BASE_URL`: 기본 `http://localhost:8000`
 
+카메라/이미지 인식:
+- `expo-image-picker`를 사용해 카메라 촬영 또는 앨범 선택 후 backend `detect-from-images` API로 업로드합니다.
+- Web에서는 브라우저 권한/보안 정책에 따라 카메라 촬영이 제한될 수 있어, 앨범 선택 경로로 테스트하는 것을 권장합니다.
+
 ```bash
 cd app
 npm install

@@ -1,4 +1,4 @@
-import { Modal, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Modal, StyleSheet, Text, View } from 'react-native';
 
 import { colors, spacing, typography } from '@/theme/tokens';
 import { Button } from '@/ui/Button';
@@ -7,22 +7,33 @@ import { Card } from '@/ui/Card';
 type IngredientDetectModalProps = {
   visible: boolean;
   detecting: boolean;
-  onClose: () => void;
-  onDetect: () => void;
+  onCancel: () => void;
+  onOpenCamera: () => void;
+  onOpenGallery: () => void;
 };
 
-export function IngredientDetectModal({ visible, detecting, onClose, onDetect }: IngredientDetectModalProps) {
+export function IngredientDetectModal({
+  visible,
+  detecting,
+  onCancel,
+  onOpenCamera,
+  onOpenGallery,
+}: IngredientDetectModalProps) {
   return (
-    <Modal transparent visible={visible} animationType="fade" onRequestClose={onClose}>
+    <Modal transparent visible={visible} animationType="fade" onRequestClose={onCancel}>
       <View style={styles.backdrop}>
         <View>
           <Card>
             <Text style={styles.title}>카메라 재료 인식</Text>
-            <Text style={styles.description}>사진 분석 결과를 확인한 뒤 재료 리스트에 반영할 수 있습니다.</Text>
+            <Text style={styles.description}>
+              {detecting ? '분석중입니다. 잠시만 기다려주세요.' : '촬영하거나 앨범에서 선택한 사진을 분석합니다.'}
+            </Text>
+            {detecting ? <ActivityIndicator size="small" color={colors.primary} /> : null}
             <View style={styles.buttons}>
-              <Button label="취소" variant="outline" flex onPress={onClose} />
-              <Button label={detecting ? '분석 중...' : '분석 시작'} flex onPress={onDetect} disabled={detecting} />
+              <Button label="촬영" variant="camera" flex onPress={onOpenCamera} disabled={detecting} />
+              <Button label="앨범 선택" variant="outline" flex onPress={onOpenGallery} disabled={detecting} />
             </View>
+            <Button label={detecting ? '분석 취소' : '취소'} variant="outline" onPress={onCancel} />
           </Card>
         </View>
       </View>

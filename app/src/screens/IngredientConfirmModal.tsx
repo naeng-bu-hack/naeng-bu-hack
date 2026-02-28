@@ -21,6 +21,7 @@ export function IngredientConfirmModal({
   onClose,
   onApply,
 }: IngredientConfirmModalProps) {
+  console.log('[confirm-modal] visible:', visible, 'candidateCount:', candidates.length, 'candidates:', candidates);
   return (
     <Modal transparent visible={visible} animationType="fade" onRequestClose={onClose}>
       <View style={styles.backdrop}>
@@ -41,6 +42,7 @@ export function IngredientConfirmModal({
                   </Pressable>
                 );
               })}
+              {candidates.length === 0 ? <Text style={styles.emptyText}>표시할 식재료가 없습니다.</Text> : null}
             </View>
             <View style={styles.buttons}>
               <Button label="닫기" variant="outline" flex onPress={onClose} />
@@ -97,5 +99,9 @@ const styles = StyleSheet.create({
   },
   unselectedChipText: {
     color: colors.textSecondary,
+  },
+  emptyText: {
+    ...typography.subtitle,
+    color: colors.textMuted,
   },
 });

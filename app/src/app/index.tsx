@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'expo-router';
-import { Alert } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import { Alert, Platform } from 'react-native';
 
-import { detectIngredientsFromImages } from '@/api/client';
+import { detectIngredientsFromImages, type UploadImage } from '@/api/client';
 import { IngredientConfirmModal } from '@/screens/IngredientConfirmModal';
 import { IngredientDetectModal } from '@/screens/IngredientDetectModal';
 import { InputPage } from '@/screens/InputPage';
@@ -18,6 +19,7 @@ export default function InputRoute() {
   const [candidates, setCandidates] = useState<string[]>([]);
   const [selectedCandidates, setSelectedCandidates] = useState<Record<string, boolean>>({});
   const [detecting, setDetecting] = useState(false);
+  const detectAbortController = useRef<AbortController | null>(null);
 
   function handleAddIngredient() {
     addIngredient(input);
@@ -28,26 +30,110 @@ export default function InputRoute() {
     setCameraModalVisible(true);
   }
 
-  async function handleDetectFromCamera() {
+  async function runImageDetect(file: UploadImage) {
+    const controller = new AbortController();
+    detectAbortController.current = controller;
     try {
       setDetecting(true);
-      const detected = await detectIngredientsFromImages();
-      const names = detected.map((item) => item.name);
+      const detected = await detectIngredientsFromImages(file, { signal: controller.signal });
+      console.log('[detect] raw response candidates:', detected);
+      const names = detected
+        .map((item) => {
+          const display = item.name?.trim();
+          const normalized = item.normalized?.trim();
+          return display || normalized || '';
+        })
+        .filter((value) => value.length > 0);
+      console.log('[detect] display candidates:', names);
+
       const selected = names.reduce<Record<string, boolean>>((acc, item) => {
         acc[item] = true;
         return acc;
       }, {});
 
       setCandidates(names);
+      console.log('[detect] setCandidates length:', names.length);
       setSelectedCandidates(selected);
       setCameraModalVisible(false);
       setConfirmModalVisible(true);
     } catch (err) {
+      if (err instanceof Error && err.name === 'AbortError') {
+        return;
+      }
       const message = err instanceof Error ? err.message : '이미지 분석에 실패했습니다.';
       Alert.alert('카메라 분석 실패', message);
     } finally {
+      detectAbortController.current = null;
       setDetecting(false);
     }
+  }
+
+  function handleCancelDetectModal() {
+    if (detectAbortController.current) {
+      detectAbortController.current.abort();
+      detectAbortController.current = null;
+    }
+    setDetecting(false);
+    setCameraModalVisible(false);
+  }
+
+  async function handleCaptureWithCamera() {
+    if (Platform.OS === 'web') {
+      await handlePickFromGallery();
+      return;
+    }
+
+    const permission = await ImagePicker.requestCameraPermissionsAsync();
+    if (!permission.granted) {
+      Alert.alert('권한 필요', '카메라 권한이 필요합니다.');
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      quality: 0.7,
+    });
+    if (result.canceled || result.assets.length === 0) {
+      return;
+    }
+
+    const asset = result.assets[0];
+    const file: UploadImage = {
+      uri: asset.uri,
+      name: asset.fileName ?? 'camera.jpg',
+      type: asset.mimeType ?? 'image/jpeg',
+    };
+    await runImageDetect(file);
+  }
+
+  async function handlePickFromGallery() {
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permission.granted) {
+      Alert.alert('권한 필요', '사진 접근 권한이 필요합니다.');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsMultipleSelection: false,
+      allowsEditing: false,
+      quality: 0.7,
+      selectionLimit: 1,
+    });
+    if (result.canceled || result.assets.length === 0) {
+      return;
+    }
+
+    const asset: ImagePicker.ImagePickerAsset = result.assets[0];
+    const file: UploadImage = asset.file
+      ? asset.file
+      : {
+          uri: asset.uri,
+          name: asset.fileName ?? 'gallery.jpg',
+          type: asset.mimeType ?? 'image/jpeg',
+        };
+    await runImageDetect(file);
   }
 
   function toggleCandidate(name: string) {
@@ -91,8 +177,9 @@ export default function InputRoute() {
       <IngredientDetectModal
         visible={cameraModalVisible}
         detecting={detecting}
-        onClose={() => setCameraModalVisible(false)}
-        onDetect={handleDetectFromCamera}
+        onCancel={handleCancelDetectModal}
+        onOpenCamera={handleCaptureWithCamera}
+        onOpenGallery={handlePickFromGallery}
       />
       <IngredientConfirmModal
         visible={confirmModalVisible}
