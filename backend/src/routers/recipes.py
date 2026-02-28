@@ -14,7 +14,7 @@ router = APIRouter(prefix='/api/v1', tags=['recipes'])
 
 @router.post('/recommendations', response_model=RecommendResponse)
 def recommendations_api(payload: RecommendRequest) -> RecommendResponse:
-    return recommend_recipes(payload.ingredients, payload.cuisine, payload.max_minutes)
+    return recommend_recipes(payload.ingredients_ko)
 
 
 @router.get('/recipes/{recipe_id}', response_model=RecipeDetailResponse)

@@ -69,7 +69,7 @@ function isWebFile(value: UploadImage): value is File {
 
 export async function fetchRecipes(ingredients: string[]): Promise<RecipeSummary[]> {
   if (USE_MOCK) {
-    await delay(700);
+    await delay(3000);
     return MOCK_RECIPES;
   }
 
@@ -77,9 +77,7 @@ export async function fetchRecipes(ingredients: string[]): Promise<RecipeSummary
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      ingredients,
-      cuisine: 'any',
-      max_minutes: 30,
+      ingredients_ko: ingredients,
     }),
   });
   const payload = await parseJson<{ recipes: RecipeSummary[] }>(response);

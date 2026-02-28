@@ -68,6 +68,11 @@ docker compose down
   - `APP_ENV`
   - `APP_HOST`
   - `APP_PORT`
+  - `GEMINI_API_KEY`
+  - `GEMINI_MODEL`
+  - `RECIPE_API_BASE_URL`
+  - `RECIPE_API_TIMEOUT`
+  - `RECIPE_MAX_URLS`
 
 ## 5) 루트에서 app + backend 동시 실행
 

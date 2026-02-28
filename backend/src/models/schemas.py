@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class HealthResponse(BaseModel):
@@ -9,9 +9,7 @@ class HealthResponse(BaseModel):
 
 
 class RecommendRequest(BaseModel):
-    ingredients: list[str]
-    cuisine: str = 'any'
-    max_minutes: int = 30
+    ingredients_ko: list[str] = Field(default_factory=list)
 
 
 class RecipeSummaryItem(BaseModel):

@@ -59,12 +59,24 @@
 - Request:
 ```json
 {
-  "ingredients": ["계란", "대파"],
-  "cuisine": "any",
-  "max_minutes": 30
+  "ingredients_ko": ["계란", "대파"]
 }
 ```
-App은 한글 재료명을 보내고, Backend가 내부에서 영문 canonical로 정규화해 추천 로직에 사용합니다.
+Backend는 요청을 외부 레시피 서버(`POST {RECIPE_API_BASE_URL}/recipes`)로 전달합니다.
+외부 응답 URL 중 상위 2~3개만 처리하고, URL 내용을 기반으로 LLM 요약/재구성 단계를 거쳐 `recipes`를 반환합니다.
+외부 서버 요청 페이로드:
+```json
+{
+  "ingredients_ko": ["계란", "대파"]
+}
+```
+외부 서버 응답 예시:
+```json
+{
+  "recipe_count": 2,
+  "recipe_urls": ["https://example.com/recipes/a", "https://example.com/recipes/b"]
+}
+```
 - Response:
 ```json
 {
