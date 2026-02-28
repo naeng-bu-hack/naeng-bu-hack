@@ -23,7 +23,7 @@
 
 ### Detect From Images
 - `POST /api/v1/ingredients/detect-from-images`
-- Request: `multipart/form-data` with repeated key `images`
+- Request: `multipart/form-data` with key `image` (single file)
 - Response:
 ```json
 {
